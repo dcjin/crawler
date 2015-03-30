@@ -11,6 +11,7 @@ iconv.extendNodeEncodings();
 
 request({ url: url, encoding: 'gb2312' }, function(error, response, body) {
 	if(!error && response.statusCode === 200) {
+		debugger;
 		var $ = cheerio.load(body);
 		var tr = $('tr');
 		var all = [],

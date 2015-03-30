@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "cheerio": "^0.19.0",
+    "cron": "^1.0.9",
     "iconv-lite": "^0.4.7",
     "request": "^2.54.0"
   }
