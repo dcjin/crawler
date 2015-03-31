@@ -1,1 +1,11 @@
-Graduation Project ---- a crawler, use node, cheerio, reuqest and etc.
+web页面信息抽取
+----------------------------
+/-目前功能
+	--爬取hosts
+		--写入hosts文件
+	--51job杭州实习第一页50条信息
+		--抓取html文档
+		--解析DOM获取数据
+		--mysql持久化数据
+
+/-TODO

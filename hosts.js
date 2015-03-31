@@ -9,6 +9,8 @@ var fs = require('fs'),
 // After this call all Node basic primitives will understand iconv-lite encodings.
 iconv.extendNodeEncodings();
 
+console.log('start at ' + new Date());
+
 var job = new cronJob({
 	cronTime: '00 00 09 * * 1-5', // 工作日 AM 9:00:00 运行
 	onTick: function () {
