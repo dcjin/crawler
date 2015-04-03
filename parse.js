@@ -67,7 +67,7 @@ exports.getInfo = function () {
 					var element = $(ele).find('.wordBreakNormal').find('span');
 					var obj = {
 						introduce: element.text().trim(),
-						jobID: +element.attr('id').substr(7)//难道这个就是ID？？？？
+						id: element.attr('id').substr(7)//难道这个就是ID？？？？
 					};
 
 					part2.push(obj);

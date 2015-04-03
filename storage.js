@@ -9,31 +9,148 @@ var pool = mysql.createPool({
 	connectionLimit: 15
 });
 
-exports.storeInfo = function (item) {
+//所需的信息
+var REQUIRED_PARAMETER = ['id', 'job', 'company', 'address', 'time', 'degree', 'experience', 'companyNature', 'companySize', 'introduce'];
+
+
+/*
+*	存储信息模块
+*	
+*	@param  {object} item 一条完整的信息
+*	@param 	{function} callback 回调方法
+*/
+
+exports.storeInfo = function (item, callback) {
+	var params = [];
+
+	//没有id或者id为空都为脏数据
+	if (item['id'] === '' || typeof item['id'] === 'undefined') {
+		console.log('bad information');
+		return;
+	}
+
+	//数组化信息 有些信息不存在，如公司性质，则赋空
+	REQUIRED_PARAMETER.forEach(function (param) {
+		(typeof item[param] === 'undefined') && (item[param] = '');
+		params.push(item[param]);
+	});
+
+	checkInfo(item.id, function (isExist) {
+		if (isExist) {
+			conn.release();
+			//callback 为storeinfo的,多层果然是地狱啊
+			updateInfo(item, function (isUpdated) {
+				isUpdated && callback({
+					"err": false,
+					"message": "jobinfo " + item.id + " is updated",
+				});
+			});
+
+			return true;
+		} else {
+			console.log('insert jobinfo ' + item.id + ' into db');
+
+			storeIn(params, function (isStored) {
+				conn.release();
+				isStored && callback({
+					"err": false,
+					"message": "jobinfo " + item.id + " is stored"
+				})
+			});
+		}
+	});
+}
+
+/*
+*	检查信息模块
+*
+*	@param {number} id 招聘信息id
+*	@return {boolean}
+*/
+exports.checkInfo = function (id, callback) {
+	checkInfo(id, callback);
+}
+
+function checkInfo(id, callback) {
 	pool.getConnection(function (err, conn) {
-		if (err) { console.log('err: ' + err); }
+		if (err) { console.log(err); }
 
-		var REQUIRED_PARAMETER = ['jobID', 'job', 'company', 'address', 'time', 'degree', 'experience', 'companyNature', 'companySize', 'introduce'];
+		var sql = 'SELECT * FROM jobInfo WHERE id=' + id;
 
-		REQUIRED_PARAMETER.forEach(function (param) {
-			if (typeof item[param] === 'undefined') {
-				if (param === 'jobID') {
-					item[param] = 0;
-				}
-				item[param] = '';
+		conn.query(sql, function (err, results) {
+			if (err) { console.log(err); }
+
+			conn.release();
+			if (results.length > 0) {
+				callback(true);
+				return true;
+			} else {
+				callback(false);
+				return true;
 			}
 		});
+	});
+}
 
-		var sql = "INSERT INTO jobInfo (id, name, company, address, time, degree, experience, companyNature, companySize, introduce) values('"
-			+ item.jobID + "','" + item.job + "','" + item.company + "','" + item.address + "','" + item.time + "','" + item.degree + "','" + item.experience + "','"
-			+ item.companyNature + "','" + item.companySize + "','" + item.introduce +"')";
+/*
+*	插入信息模块
+*	
+*	@param {Array} params 数组化后的信息
+*	@param {function} callback	回调方法
+*/
+exports.storeIn = function (params, callback) {
+	storeIn(params, callback);
+}
 
-		conn.query(sql, function(err, results) {
-			if (err) { console.log(err); return; }
+function storeIn(params, callback) {
+	pool.getConnection(function (err, conn) {
+		if (err) { console.log(err); }
 
-			console.log('saved');
+		// var sql = "INSERT INTO jobInfo (" + REQUIRED_PARAMETER.join(',') + ") values('"
+		// 	+ item.jobID + "','" + item.job + "','" + item.company + "','" + item.address + "','" + item.time + "','" + item.degree + "','" + item.experience + "','"
+		// 	+ item.companyNature + "','" + item.companySize + "','" + item.introduce +"')";
+		if (params instanceof Array && params.length > 0) { return; }
+
+		var sql = 'INSERT INTO jobInfo (' + REQUIRED_PARAMETER.join(',') + ') values(' + conn.escape(params) + ')';
+
+		conn.query(sql, function (err, results) {
+			if (err) { console.log(err); }
+
+			conn.release();
+
+			callback(true);
+			return true;
 		});
+	});
+}
 
-		conn.release();
-	})
+/*
+*	更新信息模块
+*	
+*	@param {Array} item 信息对象
+*	@param {function} callback	回调方法
+*/
+exports.updateInfo = function (item, callback) {
+	updateInfo(item, callback);
+}
+
+function updateInfo(item, callback) {
+	pool.getConnection(function (err, conn) {
+		if (err) { console.log(err); }
+
+		if (params instanceof Array && params.length > 0) { return; }
+
+		var sql = 'UPDATE jobInfo SET job = ' + item.job + ', company = ' + item.company + ', address = ' + item.address
+		+ ', time = ' + item.time + ', degree = ' + item.degree + ', experience = ' + item.experience + ', companyNature =' + item.companyNature
+		+ ', companySize = ' + item.companySize + ', introduce' + item.introduce;
+
+		conn.query(sql, function (err, results) {
+			if (err) { console.log(err); }
+
+			conn.release();
+
+			callback(true);
+			return true;
+		});
+	});
 }
