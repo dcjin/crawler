@@ -17,8 +17,9 @@ exports.getInfo = function () {
 		if(!error && response.statusCode === 200) {
 			var $ = cheerio.load(body);
 			var tr = $('tr');
-			
+
 			tr.each(function(index, ele) {
+				//基本信息：工作，公司，地址，更新时间
 				if($(ele).attr('class') === 'tr0') {
 					var obj = {
 						job: $(ele).find('.td1').find('a').text().trim(),
@@ -29,6 +30,7 @@ exports.getInfo = function () {
 					lenAll++;
 					all.push(obj);
 				}
+				//要求信息：学历要求，工作经验，公司性质，公司规模
 				if($(ele).attr('class') === 'tr1') {
 					var arr = $(ele).find('.td1234').text().trim().split('|');
 					var obj = {};
@@ -60,6 +62,7 @@ exports.getInfo = function () {
 
 					part1.push(obj);
 				}
+				//介绍信息：工作简介，ID
 				if($(ele).attr('class') === 'tr2') {
 					var element = $(ele).find('.wordBreakNormal').find('span');
 					var obj = {

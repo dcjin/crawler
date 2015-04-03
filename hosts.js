@@ -12,12 +12,12 @@ iconv.extendNodeEncodings();
 console.log('start at ' + new Date());
 
 var job = new cronJob({
-	cronTime: '00 00 09 * * 1-5', // 工作日 AM 9:00:00 运行
+	cronTime: '* * * * * *', // 工作日 AM 9:00:00 运行
 	onTick: function () {
 		request({url: url, encoding: 'utf-8'}, function (err, rep, body) {
 			if (!err && rep.statusCode === 200) {
 				var $ = cheerio.load(body);
-				var data = $('#storybox').children('.v_story').children('div').children('pre').text();
+				var data = $('#storybox').find('.v_story').find('div').find('pre').text();
 				//console.log(data);
 
 				fs.writeFile(path, data, function(err) {
