@@ -12,7 +12,7 @@ iconv.extendNodeEncodings();
 console.log('start at ' + new Date());
 
 var job = new cronJob({
-	cronTime: '* * * * * *', // 工作日 AM 9:00:00 运行
+	cronTime: '* * 09 * * 1-5', // 工作日 AM 9:00:00 运行
 	onTick: function () {
 		request({url: url, encoding: 'utf-8'}, function (err, rep, body) {
 			if (!err && rep.statusCode === 200) {
