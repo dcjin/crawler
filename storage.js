@@ -29,7 +29,7 @@ exports.storeInfo = function (item, callback) {
 		return;
 	}
 
-	//数组化信息 有些信息不存在，如公司性质，则赋空
+	//数组化信息 有些信息不存在，如公司性质，则赋空			两种形式数据[1, 2, 3]   {a:1, b:2, c:3}
 	REQUIRED_PARAMETER.forEach(function (param) {
 		(typeof item[param] === 'undefined') && (item[param] = '');
 		params.push(item[param]);
@@ -37,7 +37,6 @@ exports.storeInfo = function (item, callback) {
 
 	checkInfo(item.id, function (isExist) {
 		if (isExist) {
-			conn.release();
 			//callback 为storeinfo的,多层果然是地狱啊
 			updateInfo(item, function (isUpdated) {
 				isUpdated && callback({
@@ -48,10 +47,7 @@ exports.storeInfo = function (item, callback) {
 
 			return true;
 		} else {
-			console.log('insert jobinfo ' + item.id + ' into db');
-
 			storeIn(params, function (isStored) {
-				conn.release();
 				isStored && callback({
 					"err": false,
 					"message": "jobinfo " + item.id + " is stored"
@@ -109,18 +105,20 @@ function storeIn(params, callback) {
 		// var sql = "INSERT INTO jobInfo (" + REQUIRED_PARAMETER.join(',') + ") values('"
 		// 	+ item.jobID + "','" + item.job + "','" + item.company + "','" + item.address + "','" + item.time + "','" + item.degree + "','" + item.experience + "','"
 		// 	+ item.companyNature + "','" + item.companySize + "','" + item.introduce +"')";
-		if (params instanceof Array && params.length > 0) { return; }
+		if (params instanceof Array && params.length > 0) {
+			var sql = 'INSERT INTO jobInfo (' + REQUIRED_PARAMETER.join(',') + ') values(' + conn.escape(params) + ')';
 
-		var sql = 'INSERT INTO jobInfo (' + REQUIRED_PARAMETER.join(',') + ') values(' + conn.escape(params) + ')';
+			conn.query(sql, function (err, results) {
+				if (err) { console.log(err); }
 
-		conn.query(sql, function (err, results) {
-			if (err) { console.log(err); }
+				conn.release();
 
-			conn.release();
-
-			callback(true);
-			return true;
-		});
+				callback(true);
+				return true;
+			});
+		} else {
+			return;
+		}
 	});
 }
 
@@ -138,11 +136,12 @@ function updateInfo(item, callback) {
 	pool.getConnection(function (err, conn) {
 		if (err) { console.log(err); }
 
-		if (params instanceof Array && params.length > 0) { return; }
+		if (!item || typeof item === 'undefined') { return; }
 
-		var sql = 'UPDATE jobInfo SET job = ' + item.job + ', company = ' + item.company + ', address = ' + item.address
-		+ ', time = ' + item.time + ', degree = ' + item.degree + ', experience = ' + item.experience + ', companyNature =' + item.companyNature
-		+ ', companySize = ' + item.companySize + ', introduce' + item.introduce;
+		//TODO
+		var sql = "UPDATE jobInfo SET job = '" + item.job + "', company = '" + item.company + "', address = '" + item.address
+		+ "', time = '" + item.time + "', degree = '" + item.degree + "', experience = '" + item.experience + "', companyNature ='" + item.companyNature
+		+ "', companySize = '" + item.companySize + "', introduce = '" + item.introduce + "' WHERE ID = '" + item.id + "'";
 
 		conn.query(sql, function (err, results) {
 			if (err) { console.log(err); }
