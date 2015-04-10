@@ -1,3 +1,8 @@
+/*
+*	抽取模块三 --- 智联招聘
+*	杭州 --- 实习
+*/
+
 var request = require('request'),
 	cheerio = require('cheerio'),
 	iconv = require('iconv-lite');
@@ -12,6 +17,7 @@ var all = [];
 request({url: url, encoding: 'UTF-8'}, function (err, res, body) {
 	if (!err && res.statusCode === 200) {
 		var $ = cheerio.load(body);
+		//一条table就是一条完整的信息
 		var a = $('table[class=newlist]');
 		a.each(function (index, ele) {
 			if(index !== 0){

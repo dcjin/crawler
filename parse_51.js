@@ -1,3 +1,8 @@
+/*
+*	抽取模块一 --- 前程无忧
+*	杭州 --- 实习
+*/
+
 var request = require('request'),
 	cheerio = require('cheerio'),
 	iconv = require('iconv-lite');
