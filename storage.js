@@ -72,7 +72,8 @@ function checkInfo(id, callback) {
 		if (err) { console.log(err); }
 
 		//http://stackoverflow.com/questions/1346209/unknown-column-in-field-list-error-on-mysql-update-query
-		var sql = "SELECT * FROM jobInfo WHERE id=" + '"id"';
+        //sql syntax is very important
+		var sql = "SELECT * FROM jobInfo WHERE id='" + id + "'";
 
 		conn.query(sql, function (err, results) {
 			if (err) { console.log(err); }

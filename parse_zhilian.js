@@ -5,13 +5,12 @@
 
 var request = require('request'),
 	cheerio = require('cheerio'),
-	iconv = require('iconv-lite'),
-	settings = require('./settings');
+	iconv = require('iconv-lite');
 
 var page = 1;
 var url = 'http://sou.zhaopin.com/jobs/searchresult.ashx?bj=5006000&sj=299%3b302%3b301%3b381&jl=653&sm=0&sg=de3ab3dfb3f04814ab8bd6d4401349cf&p=' + page;
 
-//exports.getInfo_zhilian = function () {
+exports.getInfo_zhilian = function () {
 	iconv.extendNodeEncodings();
 
 	var all = [];
@@ -34,7 +33,7 @@ var url = 'http://sou.zhaopin.com/jobs/searchresult.ashx?bj=5006000&sj=299%3b302
 						// companyNature: getInfoRow(ele, '.newlist_deatil_two', 'span', 1),
 						// companySize: getInfoRow(ele, '.newlist_deatil_two', 'span', 2),
 						// experience: getInfoRow(ele, '.newlist_deatil_two', 'span', 3),
-						introduce: getInfoRow(ele, '.newlist_deatil_last', null, -1),
+						introduce: getInfoRow(ele, '.newlist_deatil_last', null, -1)
 					};
 
 					var detailInfo = getDetail($, ele, '.newlist_deatil_two', 'span');
@@ -42,18 +41,21 @@ var url = 'http://sou.zhaopin.com/jobs/searchresult.ashx?bj=5006000&sj=299%3b302
 					baseInfo.id = id.replace('000_653_1_03_401__1_','').replace('000_653_1_03_201__1_','').replace('CC','').replace('J90','');
 
 					for(var item in detailInfo) {
-						baseInfo[item] = detailInfo[item];
+						//needed
+						if(detailInfo.hasOwnProperty(item)) {
+							baseInfo[item] = detailInfo[item];
+						}
 					}
 
 					all.push(baseInfo);
 				}
 			});
-			console.log(all);
+			//console.log(all);
 		}
 	});
 
-// 	return all;
-// }
+ 	return all;
+ }
 
 /*
 *	Get content
@@ -114,8 +116,6 @@ function getDetail($, ele, key, tag) {
 				break;
 			case '学历':
 				obj.degree = str.substr(pos + 1);
-			default:
-				break;
 		}
 	}
 	return obj;
