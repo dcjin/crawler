@@ -10,7 +10,7 @@ var pool = mysql.createPool({
 });
 
 //所需的信息
-var REQUIRED_PARAMETER = ['id', 'job', 'company', 'address', 'time', 'degree', 'experience', 'companyNature', 'companySize', 'introduce'];
+var REQUIRED_PARAMETER = ['id', 'job', 'jobLink', 'company', 'companyLink', 'address', 'time', 'degree', 'experience', 'companyNature', 'companySize', 'introduce'];
 
 
 /*
@@ -140,10 +140,13 @@ function updateInfo(item, callback) {
 
 		if (!item || typeof item === 'undefined') { return; }
 
+		//var REQUIRED_PARAMETER = ['id', 'job', 'jobLink', 'company', 'companyLink', 'address', 'time', 'degree', 'experience', 'companyNature', 'companySize', 'introduce'];
+
 		//TODO
 		var sql = "UPDATE jobInfo SET job = '" + item.job + "', company = '" + item.company + "', address = '" + item.address
-		+ "', time = '" + item.time + "', degree = '" + item.degree + "', experience = '" + item.experience + "', companyNature ='" + item.companyNature
-		+ "', companySize = '" + item.companySize + "', introduce = '" + item.introduce + "' WHERE ID = '" + item.id + "'";
+		+ "', time = '" + item.time + "', degree = '" + item.degree + "', experience = '" + item.experience
+		+ "', companyNature ='" + item.companyNature + "', companySize = '" + item.companySize + "', introduce = '" + item.introduce + "',jobLink = '" + item.jobLink +
+		+ '", companyLink = "' + item.companyLink + "' WHERE ID = '" + item.id + "'";
 
 		conn.query(sql, function (err, results) {
 			if (err) { console.log(err); }

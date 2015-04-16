@@ -4,10 +4,10 @@ var parse = require('./parse_51'),
 	async = require('async');
 
 var jobInfo = parse.getInfo();
-var jobInfo_zhilian = parse_zhilian.getInfo_zhilian();
+//var jobInfo = parse_zhilian.getInfo_zhilian();
 
 setTimeout(function () {
-	jobInfo_zhilian.forEach(function (info) {
+	jobInfo.forEach(function (info) {
 		//console.log(info);
 		storage.storeInfo(info, function (params) {
 			if (!params.err) {
