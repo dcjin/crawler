@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 
-//创建连接池
+//create pool
 var pool = mysql.createPool({
 	host: 'localhost',
 	user: 'root',
@@ -9,36 +9,38 @@ var pool = mysql.createPool({
 	connectionLimit: 15
 });
 
-//所需的信息
-var REQUIRED_PARAMETER = ['id', 'job', 'jobLink', 'company', 'companyLink', 'address', 'time', 'degree', 'experience', 'companyNature', 'companySize', 'introduce'];
+//necessary params
+var REQUIRED_PARAMETER = ['id', 'job', 'company', 'address', 'time', 'degree', 'experience', 'companyNature', 'companySize', 'introduce', 'jobLink', 'companyLink'];
 
 
 /*
-*	存储信息模块
+*	storage module
 *	
-*	@param  {object} item 一条完整的信息
-*	@param 	{function} callback 回调方法
+*	@param  {object}	item 		whole information
+*	@param 	{function}	callback	callback method
 */
 
 exports.storeInfo = function (item, callback) {
 	var params = [];
 
-	//没有id或者id为空都为脏数据
+	//no "id" or dirty data
 	if (item['id'] === '' || typeof item['id'] === 'undefined') {
 		console.log('bad information');
 		return;
 	}
 
-	//数组化信息 有些信息不存在，如公司性质，则赋空			两种形式数据[1, 2, 3]   {a:1, b:2, c:3}
+	//transform the info from Object to Array		has two types: [1, 2, 3]   {a:1, b:2, c:3}
 	REQUIRED_PARAMETER.forEach(function (param) {
-		(typeof item[param] === 'undefined') && (item[param] = '');
-		params.push(item[param]);
+		if (REQUIRED_PARAMETER.hasOwnProperty(param)) {
+			(typeof item[param] === 'undefined') && (item[param] = '');
+			params.push(item[param]);
+		}
 	});
 
 	checkInfo(item.id, function (isExist) {
 		if (isExist) {
-			//callback 为storeinfo的,多层果然是地狱啊
-			updateInfo(item, function (isUpdated) {
+			//WTF SO MANY CALLBACKS!!!
+			updateInfo(params, function (isUpdated) {
 				isUpdated && callback({
 					"err": false,
 					"message": "jobinfo " + item.id + " is updated",
@@ -58,9 +60,9 @@ exports.storeInfo = function (item, callback) {
 }
 
 /*
-*	检查信息模块
+*	check module
 *
-*	@param {number} id 招聘信息id
+*	@param {number}		id 		information's id
 *	@return {boolean}
 */
 exports.checkInfo = function (id, callback) {
@@ -73,9 +75,12 @@ function checkInfo(id, callback) {
 
 		//http://stackoverflow.com/questions/1346209/unknown-column-in-field-list-error-on-mysql-update-query
         //sql syntax is very important
-		var sql = "SELECT * FROM jobInfo WHERE id='" + id + "'";
+		//var sql = "SELECT * FROM jobInfo WHERE id='" + id + "'";
 
-		conn.query(sql, function (err, results) {
+		//using sql escape
+		var sql = "SELECT * FROM jobInfo WHERE id = ?";
+
+		conn.query(sql, id, function (err, results) {
 			if (err) { console.log(err); }
 
 			conn.release();
@@ -107,6 +112,8 @@ function storeIn(params, callback) {
 		// var sql = "INSERT INTO jobInfo (" + REQUIRED_PARAMETER.join(',') + ") values('"
 		// 	+ item.jobID + "','" + item.job + "','" + item.company + "','" + item.address + "','" + item.time + "','" + item.degree + "','" + item.experience + "','"
 		// 	+ item.companyNature + "','" + item.companySize + "','" + item.introduce +"')";
+
+		//using sql escape
 		if (params instanceof Array && params.length > 0) {
 			var sql = 'INSERT INTO jobInfo (' + REQUIRED_PARAMETER.join(',') + ') values(' + conn.escape(params) + ')';
 
@@ -134,27 +141,41 @@ exports.updateInfo = function (item, callback) {
 	updateInfo(item, callback);
 }
 
-function updateInfo(item, callback) {
+function updateInfo(params, callback) {
 	pool.getConnection(function (err, conn) {
 		if (err) { console.log(err); }
 
-		if (!item || typeof item === 'undefined') { return; }
+		if (params instanceof Array && params.length > 0) {
+			//assemble sql statement
+			var sql = 'UPDATE jobInfo SET ';
 
-		//var REQUIRED_PARAMETER = ['id', 'job', 'jobLink', 'company', 'companyLink', 'address', 'time', 'degree', 'experience', 'companyNature', 'companySize', 'introduce'];
+			for (var i = 1, len = REQUIRED_PARAMETER.length - 1; i < len; i++) {
+				sql += REQUIRED_PARAMETER[i] + ' = ?, '
+			}
 
-		//TODO
-		var sql = "UPDATE jobInfo SET job = '" + item.job + "', company = '" + item.company + "', address = '" + item.address
-		+ "', time = '" + item.time + "', degree = '" + item.degree + "', experience = '" + item.experience
-		+ "', companyNature ='" + item.companyNature + "', companySize = '" + item.companySize + "', introduce = '" + item.introduce + "',jobLink = '" + item.jobLink +
-		+ '", companyLink = "' + item.companyLink + "' WHERE ID = '" + item.id + "'";
+			sql += REQUIRED_PARAMETER[REQUIRED_PARAMETER.length - 1] + ' = ? WHERE id = ?';
 
-		conn.query(sql, function (err, results) {
-			if (err) { console.log(err); }
+			// var sql = "UPDATE jobInfo SET job = '" + item.job + "', company = '" + item.company + "', address = '" + item.address
+			// + "', time = '" + item.time + "', degree = '" + item.degree + "', experience = '" + item.experience
+			// + "', companyNature ='" + item.companyNature + "', companySize = '" + item.companySize + "', introduce = '" + item.introduce + "',jobLink = '" + item.jobLink +
+			// + '", companyLink = "' + item.companyLink + "' WHERE ID = '" + item.id + "'";
 
-			conn.release();
+			//assemble params in correct sequence
+			var id = params[0],
+				len = params.length;
+			for (var i = 1; i < len; i++) {
+				params[i - 1] = params[i];
+			}
+			params[len - 1] = id;
 
-			callback(true);
-			return true;
-		});
+			conn.query(sql, params, function (err, results) {
+				if (err) { console.log(err); }
+
+				conn.release();
+
+				callback(true);
+				return true;
+			});
+		}
 	});
 }
