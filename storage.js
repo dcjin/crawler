@@ -1,3 +1,7 @@
+/*
+*	Storage Module which contains three method for insert, update and check
+*/
+
 var mysql = require('mysql');
 
 //create pool
@@ -43,7 +47,7 @@ exports.storeInfo = function (item, callback) {
 			updateInfo(params, function (isUpdated) {
 				isUpdated && callback({
 					"err": false,
-					"message": "jobinfo " + item.id + " is updated",
+					"message": "jobinfo " + item.id + " is updated"
 				});
 			});
 
@@ -57,17 +61,17 @@ exports.storeInfo = function (item, callback) {
 			});
 		}
 	});
-}
+};
 
 /*
 *	check module
 *
-*	@param {number}		id 		information's id
-*	@return {boolean}
+*	@param {number}		id 			information's id
+*	@param {function}	callback	callback method
 */
 exports.checkInfo = function (id, callback) {
 	checkInfo(id, callback);
-}
+};
 
 function checkInfo(id, callback) {
 	pool.getConnection(function (err, conn) {
@@ -96,14 +100,14 @@ function checkInfo(id, callback) {
 }
 
 /*
-*	插入信息模块
+*	insert module
 *	
-*	@param {Array} params 数组化后的信息
-*	@param {function} callback	回调方法
+*	@param {Array}		params 		which contains whole information
+*	@param {function}	callback	callback method
 */
 exports.storeIn = function (params, callback) {
 	storeIn(params, callback);
-}
+};
 
 function storeIn(params, callback) {
 	pool.getConnection(function (err, conn) {
@@ -117,7 +121,7 @@ function storeIn(params, callback) {
 		if (params instanceof Array && params.length > 0) {
 			var sql = 'INSERT INTO jobInfo (' + REQUIRED_PARAMETER.join(',') + ') values(' + conn.escape(params) + ')';
 
-			conn.query(sql, function (err, results) {
+			conn.query(sql, function (err) {
 				if (err) { console.log(err); }
 
 				conn.release();
@@ -125,21 +129,19 @@ function storeIn(params, callback) {
 				callback(true);
 				return true;
 			});
-		} else {
-			return;
 		}
 	});
 }
 
 /*
-*	更新信息模块
+*	update module
 *	
-*	@param {Array} item 信息对象
-*	@param {function} callback	回调方法
+*	@param {Array}		params 		which contains whole information
+*	@param {function}	callback	callback method
 */
-exports.updateInfo = function (item, callback) {
-	updateInfo(item, callback);
-}
+exports.updateInfo = function (params, callback) {
+	updateInfo(params, callback);
+};
 
 function updateInfo(params, callback) {
 	pool.getConnection(function (err, conn) {
@@ -161,14 +163,14 @@ function updateInfo(params, callback) {
 			// + '", companyLink = "' + item.companyLink + "' WHERE ID = '" + item.id + "'";
 
 			//assemble params in correct sequence
-			var id = params[0],
-				len = params.length;
-			for (var i = 1; i < len; i++) {
-				params[i - 1] = params[i];
+			var id = params[0];
+			for (var j = 1; i < params.length; j++) {
+				params[j - 1] = params[j];
 			}
-			params[len - 1] = id;
+			params[params.length - 1] = id;
 
-			conn.query(sql, params, function (err, results) {
+			//using sql escape
+			conn.query(sql, params, function (err) {
 				if (err) { console.log(err); }
 
 				conn.release();

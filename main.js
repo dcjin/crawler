@@ -1,10 +1,9 @@
 var parse = require('./parse_51'),
-	parse_zhilian = require('./parse_zhilian'),
-	storage = require('./storage'),
-	async = require('async');
+	//parse = require('./parse_zhilian'),
+	storage = require('./storage');
+	//async = require('async');
 
 var jobInfo = parse.getInfo();
-//var jobInfo = parse_zhilian.getInfo_zhilian();
 
 setTimeout(function () {
 	jobInfo.forEach(function (info) {
@@ -17,4 +16,4 @@ setTimeout(function () {
 	});
 }, 3000);
 
-//此处添加async模块
+//add async module in here, now use setTimeout simulate async

@@ -32,9 +32,6 @@ exports.getInfo_zhilian = function () {
 						companyLink: common.getValue(ele, '.gsmc', 'a', 'href', 0),
 						address: common.getInfoRow(ele, '.gzdd', null, -1),
 						time: common.getInfoRow(ele, '.gxsj', 'span', 0),
-						// companyNature: getInfoRow(ele, '.newlist_deatil_two', 'span', 1),
-						// companySize: getInfoRow(ele, '.newlist_deatil_two', 'span', 2),
-						// experience: getInfoRow(ele, '.newlist_deatil_two', 'span', 3),
 						introduce: common.getInfoRow(ele, '.newlist_deatil_last', null, -1)
 					};
 
@@ -57,4 +54,4 @@ exports.getInfo_zhilian = function () {
 	});
 
  	return all;
- }
+ };

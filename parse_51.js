@@ -21,7 +21,7 @@ exports.getInfo = function () {
 	request({ url: url, encoding: 'gb2312' }, function(error, response, body) {
 		if(!error && response.statusCode === 200) {
 			var $ = cheerio.load(body);
-			var aContent = $('#resultList > tr');
+			var aContent = $('#resultList').find('tr');
 
 			aContent.each(function (index, ele) {
 				//a full information contains three parts, each has a class named 'tr' + n (n=0,1,2)
@@ -39,13 +39,11 @@ exports.getInfo = function () {
 
 					all.push(obj);
 					len++;
-				}
-				if (className === 'tr1') {
+				} else if (className === 'tr1') {
 					var obj = common.getDetail_51($(ele), '.td1234');
 
 					part1.push(obj);
-				}
-				if (className === 'tr2') {
+				} else if (className === 'tr2') {
 					var obj = {
 						id: common.getValue($(ele), '.wordBreakNormal', 'span', 'id', 0),
 						introduce: common.getInfoRow($(ele), '.wordBreakNormal', 'span', 0)
@@ -59,10 +57,14 @@ exports.getInfo = function () {
 			//Merge
 			for(var i = 0; i < len; i++) {
 				for(var item in part1[i]) {
-					all[i][item] = part1[i][item];
+					if (part1[i].hasOwnProperty(item)) {
+						all[i][item] = part1[i][item];
+					}
 				}
 				for(var item in part2[i]) {
-					all[i][item] = part2[i][item];
+					if (part2[i].hasOwnProperty(item)) {
+						all[i][item] = part2[i][item];
+					}
 				}
 			}
 			//console.log(all);
@@ -70,4 +72,4 @@ exports.getInfo = function () {
 	});
 	
 	return all;
-}
+};
