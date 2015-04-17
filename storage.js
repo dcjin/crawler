@@ -16,7 +16,6 @@ var pool = mysql.createPool({
 //necessary params
 var REQUIRED_PARAMETER = ['id', 'job', 'company', 'address', 'time', 'degree', 'experience', 'companyNature', 'companySize', 'introduce', 'jobLink', 'companyLink'];
 
-
 /*
 *	storage module
 *	
@@ -30,15 +29,20 @@ exports.storeInfo = function (item, callback) {
 	//no "id" or dirty data
 	if (item['id'] === '' || typeof item['id'] === 'undefined') {
 		console.log('bad information');
-		return;
+		callback({
+			"err": true,
+			"message": 'NO ID or DIRTY DATA'
+		});
+		return false;
 	}
 
 	//transform the info from Object to Array		has two types: [1, 2, 3]   {a:1, b:2, c:3}
 	REQUIRED_PARAMETER.forEach(function (param) {
-		if (REQUIRED_PARAMETER.hasOwnProperty(param)) {
-			(typeof item[param] === 'undefined') && (item[param] = '');
-			params.push(item[param]);
+		//if item does not contain this 'param', set it to ''
+		if (!item.hasOwnProperty(param)) {
+			item[param] = '';
 		}
+		params.push(item[param]);
 	});
 
 	checkInfo(item.id, function (isExist) {
@@ -156,7 +160,6 @@ function updateInfo(params, callback) {
 			}
 
 			sql += REQUIRED_PARAMETER[REQUIRED_PARAMETER.length - 1] + ' = ? WHERE id = ?';
-
 			// var sql = "UPDATE jobInfo SET job = '" + item.job + "', company = '" + item.company + "', address = '" + item.address
 			// + "', time = '" + item.time + "', degree = '" + item.degree + "', experience = '" + item.experience
 			// + "', companyNature ='" + item.companyNature + "', companySize = '" + item.companySize + "', introduce = '" + item.introduce + "',jobLink = '" + item.jobLink +
@@ -164,7 +167,7 @@ function updateInfo(params, callback) {
 
 			//assemble params in correct sequence
 			var id = params[0];
-			for (var j = 1; i < params.length; j++) {
+			for (var j = 1; j < params.length; j++) {
 				params[j - 1] = params[j];
 			}
 			params[params.length - 1] = id;
