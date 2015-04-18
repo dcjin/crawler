@@ -1,5 +1,5 @@
-var parse = require('./parse_51'),
-	//parse = require('./parse_zhilian'),
+var //parse = require('./parse_51'),
+	parse = require('./parse_zhilian'),
 	storage = require('./storage');
 	//async = require('async');
 

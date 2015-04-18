@@ -12,7 +12,7 @@ var page = 1;
 var url = 'http://search.51job.com/jobsearch/search_result.php?fromJs=1&jobarea=080200%2C00&district=000000&funtype=0000&industrytype=00&issuedate=8&providesalary=99&keywordtype=2&curr_page=' + page + '&lang=c&stype=1&postchannel=0100&workyear=99&cotype=99&degreefrom=99&jobterm=99&companysize=99&lonlat=0%2C0&radius=-1&ord_field=0&list_type=0&fromType=14';
 
 exports.getInfo = function () {
-    "use strict";
+    'use strict';
     var all = [], part1 = [], part2 = [];
 
     //After this call all Node basic primitives will understand iconv-lite encodings.
@@ -55,19 +55,21 @@ exports.getInfo = function () {
             });
 
             //Merge
-            for (var i = 0, len = all.length; i < len; i++) {
-                for (var baseInfo in part1[i]) {
-                    if (part1[i].hasOwnProperty(baseInfo)) {
-                        all[i][baseInfo] = part1[i][baseInfo];
+            (function () {
+                for (var i = 0, len = all.length; i < len; i++) {
+                    for (var baseInfo in part1[i]) {
+                        if (part1[i].hasOwnProperty(baseInfo)) {
+                            all[i][baseInfo] = part1[i][baseInfo];
+                        }
+                    }
+                    for (var detailInfo in part2[i]) {
+                        if (part2[i].hasOwnProperty(detailInfo)) {
+                            all[i][detailInfo] = part2[i][detailInfo];
+                        }
                     }
                 }
-                for (var detailInfo in part2[i]) {
-                    if (part2[i].hasOwnProperty(detailInfo)) {
-                        all[i][detailInfo] = part2[i][detailInfo];
-                    }
-                }
-            }
-            console.log(all);
+            })();
+            //console.log(all);
         }
     });
 

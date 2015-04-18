@@ -1,1 +1,1 @@
-信息抽取
+Information Extraction
