@@ -40,7 +40,7 @@ exports.getInfo = function () {
 
                     all.push(obj);
                 } else if (className === 'tr1') {
-                    obj = common.getDetail_51($(ele), '.td1234');
+                    obj = common.getDetail_QC($(ele), '.td1234');
 
                     part1.push(obj);
                 } else if (className === 'tr2') {

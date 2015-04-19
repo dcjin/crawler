@@ -36,7 +36,7 @@ exports.getInfo = function () {
                             time: common.getInfoRow(ele, '.gxsj', 'span', 0),
                             introduce: common.getInfoRow(ele, '.newlist_deatil_last', null, -1)
                         },
-                        detailInfo = common.getDetail_zhilian($, ele, '.newlist_deatil_two', 'span');
+                        detailInfo = common.getDetail_ZL($, ele, '.newlist_deatil_two', 'span');
 
                     baseInfo.id = 'ZL_' + id.replace('000_653_1_03_401__1_', '').replace('000_653_1_03_201__1_', '').replace('CC', '').replace('J90', '');
 

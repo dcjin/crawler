@@ -51,7 +51,7 @@ exports.getValue = function (ele, key, tag, param, offset) {
 *   @(string)   key     信息所在的标签 第一层//TODO
 *   @{string}   tag     信息所在的标签 第二层//TODO
 */
-exports.getDetail_zhilian = function ($, ele, key, tag) {
+exports.getDetail_ZL = function ($, ele, key, tag) {
     'use strict';
 
     var aTags = ele.find(key).find(tag),
@@ -89,7 +89,7 @@ exports.getDetail_zhilian = function ($, ele, key, tag) {
 *   @{object}   ele     dom对象
 *   @(string)   key     信息所在的标签
 */
-exports.getDetail_51 = function (ele, key) {
+exports.getDetail_QC = function (ele, key) {
     'use strict';
 
     var str = ele.find(key).text().trim(),
