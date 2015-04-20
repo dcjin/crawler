@@ -1,24 +1,18 @@
-/*
-*   parsing module --- 智联招聘
-*   杭州 --- 实习
-*/
-
+/**
+ *   parsing module --- 智联招聘
+ *   杭州 --- 实习
+ */
 var request = require('request'),
     cheerio = require('cheerio'),
-    iconv = require('iconv-lite'),
     common = require('./common');
 
-var page = 1;
-var url = 'http://sou.zhaopin.com/jobs/searchresult.ashx?bj=5006000&sj=299%3b302%3b301%3b381&jl=653&sm=0&sg=de3ab3dfb3f04814ab8bd6d4401349cf&p=' + page;
+var href = 'http://sou.zhaopin.com/jobs/searchresult.ashx?bj=5006000&sj=299%3b302%3b301%3b381&jl=653&sm=0&sg=de3ab3dfb3f04814ab8bd6d4401349cf&p=';
 
-exports.getInfo = function () {
+exports.getInfo = function (page, callback) {
     'use strict';
     var all = [];
-
-    // After this call all Node basic primitives will understand iconv-lite encodings.
-    iconv.extendNodeEncodings();
-
-    request({ url: url, encoding: 'UTF-8' }, function (err, res, body) {
+    console.log('Page ' + page + '...');
+    request(href + page, function (err, res, body) {
         if (!err && res.statusCode === 200) {
             var $ = cheerio.load(body, {decodeEntities: false}),
                 aContent = $('table.newlist');
@@ -44,14 +38,12 @@ exports.getInfo = function () {
                         //needed
                         if (detailInfo.hasOwnProperty(item)) {
                             baseInfo[item] = detailInfo[item];
-						}
+                        }
                     }
                     all.push(baseInfo);
                 }
             });
-            //console.log(all);
         }
+        callback(all);
     });
-
-    return all;
 };

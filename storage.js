@@ -1,7 +1,6 @@
 /*
 *   Storage Module which contains three method for insert, update and check
 */
-
 var mysql = require('mysql');
 
 //create pool
@@ -13,8 +12,35 @@ var pool = mysql.createPool({
     connectionLimit: 15
 });
 
+//counter
+var count = 1;
+
 //necessary params
 var REQUIRED_PARAMETER = ['id', 'job', 'company', 'address', 'time', 'degree', 'experience', 'companyNature', 'companySize', 'introduce', 'jobLink', 'companyLink'];
+
+//TODO 想不到好的方法，凑合用
+exports.clearCount = function () {
+    'use strict';
+    count = 1;
+};
+
+function setCounter(num) {
+    'use strict';
+    var len = num.toString().length,
+        str = '';
+    switch (len) {
+        case 1:
+            str = '00' + num;
+            break;
+        case 2:
+            str = '0' + num;
+            break;
+        default :
+            str = num.toString();
+            break;
+    }
+    return str;
+}
 
 /*
 *   storage module
@@ -29,11 +55,8 @@ exports.storeInfo = function (item, callback) {
 
     //no "id" or dirty data
     if (item.id === '' || item.id === undefined) {
-        console.log('bad information');
-        callback({
-            "err": true,
-            "message": 'NO ID or DIRTY DATA'
-        });
+        console.log('NO ID OR DIRTY DATA');
+        callback(true);
         return false;
     }
 
@@ -50,18 +73,26 @@ exports.storeInfo = function (item, callback) {
         if (isExist) {
             //WTF SO MANY CALLBACKS!!!
             updateInfo(params, function (isUpdated) {
-                isUpdated && callback({
-                    "err": false,
-                    "message": "jobinfo " + item.id + " is updated"
-                });
+                if (isUpdated) {
+                    console.log("NO." + setCounter(count) + " Info " + item.id + " is updated");
+                    count++;
+                    callback(false);
+                } else {
+                    console.log('update is wrong');
+                    callback(true);
+                }
             });
             return true;
         }
         storeIn(params, function (isStored) {
-            isStored && callback({
-                "err": false,
-                "message": "jobinfo " + item.id + " is stored"
-            });
+            if (isStored) {
+                console.log("NO." + setCounter(count) + " Info " + item.id + " is stored");
+                count++;
+                callback(false);
+            } else {
+                console.log('store is wrong');
+                callback(true);
+            }
         });
         return true;
     });
@@ -157,7 +188,7 @@ function updateInfo(params, callback) {
             var sql = 'UPDATE jobInfo SET ';
 
             for (var i = 1, len = REQUIRED_PARAMETER.length - 1; i < len; i++) {
-                sql += REQUIRED_PARAMETER[i] + ' = ?, '
+                sql += REQUIRED_PARAMETER[i] + ' = ?, ';
             }
 
             sql += REQUIRED_PARAMETER[REQUIRED_PARAMETER.length - 1] + ' = ? WHERE id = ?';
