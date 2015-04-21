@@ -1,16 +1,8 @@
 /*
 *   Storage Module which contains three method for insert, update and check
 */
-var mysql = require('mysql');
-
-//create pool
-var pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '123456',
-    database: 'crawler',
-    connectionLimit: 15
-});
+//pool
+var pool = require('../common/config').db_crawler;
 
 //counter
 var count = 1;

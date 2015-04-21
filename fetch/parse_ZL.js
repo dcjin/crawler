@@ -4,7 +4,7 @@
  */
 var request = require('request'),
     cheerio = require('cheerio'),
-    common = require('./common');
+    common = require('./../common/common');
 
 var href = 'http://sou.zhaopin.com/jobs/searchresult.ashx?bj=5006000&sj=299%3b302%3b301%3b381&jl=653&sm=0&sg=de3ab3dfb3f04814ab8bd6d4401349cf&p=';
 
