@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+	<style type="text/css">
+		* {padding: 0; margin: 0; text-decoration: none; list-style-type: none;}
+	</style>
+</head>
+<body>
+    <h1>hello 这是你想要的</h1>
+    <ul>
+        <% info.forEach(function (item) { %>
+        <li><a href="#"><%= item.name %></a></li>
+        <% }) %>
+    </ul>
+</body>
+</html>
