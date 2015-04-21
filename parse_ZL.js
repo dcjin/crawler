@@ -32,7 +32,11 @@ exports.getInfo = function (page, callback) {
                         },
                         detailInfo = common.getDetail_ZL($, ele, '.newlist_deatil_two', 'span');
 
-                    baseInfo.id = 'ZL_' + id.replace('000_653_1_03_401__1_', '').replace('000_653_1_03_201__1_', '').replace('CC', '').replace('J90', '');
+                    baseInfo.id = 'ZL_' + id.replace('000_653_1_03_401__1_', '')
+                        .replace('000_653_0', '')
+                        .replace('000_653_1_03_201__1_', '')
+                        .replace('CC', '')
+                        .replace('J90', '');
 
                     for (var item in detailInfo) {
                         //needed
