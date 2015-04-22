@@ -20,7 +20,7 @@ exports.saveInfo = function (item, callback) {
     //对象数组化
     var params = process(item);
 
-    check.check(item.id, function (isExist) {
+    check.check(item.id, 'jobinfo', function (isExist) {
         //单点退出和早退出！！！！！！
         if (isExist) {
             //WTF SO MANY CALLBACKS!!!

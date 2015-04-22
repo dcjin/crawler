@@ -10,7 +10,7 @@ var config = require('../common/config'),
  *   @param  {number}     id         information's id
  *   @param  {function}   callback   callback method
  */
-exports.check = function (id, callback) {
+exports.check = function (id, str, callback) {
     'use strict';
     db.getConnection(function (err, conn) {
         if (err) { console.log(err); }
@@ -20,7 +20,7 @@ exports.check = function (id, callback) {
         // var sql = "SELECT * FROM jobInfo WHERE id='" + id + "'";
 
         // using sql escape
-        var sql = "SELECT * FROM jobinfo WHERE id = ?";
+        var sql = "SELECT * FROM " + str + " WHERE id = ?";
 
         conn.query(sql, id, function (err, results) {
             if (err) { console.log(err); }

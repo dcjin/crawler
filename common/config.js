@@ -12,7 +12,7 @@ exports.db_crawler = mysql.createPool({
     connectionLimit: 15
 });
 
-//db shion
+//db torrent
 exports.db_torrent = mysql.createPool({
     host: 'localhost',
     user: 'root',
