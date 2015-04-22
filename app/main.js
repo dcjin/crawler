@@ -11,24 +11,24 @@ app.set('views', __dirname + '/views')
     .set('/res', express.static('res'));
 
 //for company
-//app.get('/', function (rep, res) {
-//    read.getJob(function (results) {
-//        if (results) {
-//            res.locals.info = results;
-//            res.render('index');
-//        }
-//    });
-//});
-
-//for home
 app.get('/', function (rep, res) {
-    read.getAll(function (results) {
+    read.getJob(function (results) {
         if (results) {
             res.locals.info = results;
             res.render('index');
         }
     });
 });
+
+//for home
+//app.get('/', function (rep, res) {
+//    read.getAll(function (results) {
+//        if (results) {
+//            res.locals.info = results;
+//            res.render('index');
+//        }
+//    });
+//});
 
 app.listen(3000);
 console.log('start');

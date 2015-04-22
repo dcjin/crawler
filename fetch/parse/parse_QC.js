@@ -1,25 +1,23 @@
-/*
-*   parsing module --- 前程无忧
-*   杭州 --- 实习
-*/
-
+//解析模块
 var request = require('request'),
     cheerio = require('cheerio'),
     iconv = require('iconv-lite'),
-    common = require('./../common/common');
+    common = require('../../common/common'),
+    config = require('../../common/config');
 
-var page = 1;
-var url = 'http://search.51job.com/jobsearch/search_result.php?fromJs=1&jobarea=080200%2C00&district=000000&funtype=0000&industrytype=00&issuedate=8&providesalary=99&keywordtype=2&curr_page=' + page + '&lang=c&stype=1&postchannel=0100&workyear=99&cotype=99&degreefrom=99&jobterm=99&companysize=99&lonlat=0%2C0&radius=-1&ord_field=0&list_type=0&fromType=14';
-
-exports.getInfo = function () {
+exports.getInfo = function (page, callback) {
     'use strict';
-    var all = [], part1 = [], part2 = [];
+    var all = [],
+        part1 = [],
+        part2 = [],
+        url = config.url_QC_partOne + page + config.url_QC_partTwo;
+    console.log('Page ' + page + '...');
 
     //After this call all Node basic primitives will understand iconv-lite encodings.
     iconv.extendNodeEncodings();
 
-    request({ url: url, encoding: 'gb2312' }, function (error, response, body) {
-        if (!error && response.statusCode === 200) {
+    request({ url: url, encoding: 'gb2312' }, function (err, res, body) {
+        if (!err && res.statusCode === 200) {
             var $ = cheerio.load(body),
                 aContent = $('#resultList').find('tr');
 
@@ -69,9 +67,8 @@ exports.getInfo = function () {
                     }
                 }
             })();
-            //console.log(all);
+
+            callback(all);
         }
     });
-
-    return all;
 };

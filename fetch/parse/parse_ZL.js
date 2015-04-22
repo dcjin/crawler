@@ -1,18 +1,14 @@
-/**
- *   parsing module --- 智联招聘
- *   杭州 --- 实习
- */
+//解析模块
 var request = require('request'),
     cheerio = require('cheerio'),
-    common = require('./../common/common');
-
-var href = 'http://sou.zhaopin.com/jobs/searchresult.ashx?bj=5006000&sj=299%3b302%3b301%3b381&jl=653&sm=0&sg=de3ab3dfb3f04814ab8bd6d4401349cf&p=';
+    common = require('../../common/common'),
+    config = require('../../common/config');
 
 exports.getInfo = function (page, callback) {
     'use strict';
     var all = [];
     console.log('Page ' + page + '...');
-    request(href + page, function (err, res, body) {
+    request(config.url_ZL + page, function (err, res, body) {
         if (!err && res.statusCode === 200) {
             var $ = cheerio.load(body, {decodeEntities: false}),
                 aContent = $('table.newlist');
@@ -47,7 +43,8 @@ exports.getInfo = function (page, callback) {
                     all.push(baseInfo);
                 }
             });
+
+            callback(all);
         }
-        callback(all);
     });
 };

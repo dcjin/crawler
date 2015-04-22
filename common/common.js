@@ -109,6 +109,17 @@ exports.getDetail_QC = function (ele, key) {
     return obj;
 };
 
+/*
+ *   Get detail
+ *
+ *   @{string}   str       字符串
+ */
+exports.getDetail_GJ = function (str) {
+    var position = str.indexOf('：');
+
+    return str.substr(position + 1);
+};
+
 //计算时间差，耗时 TODO 有点low debug模块似乎有这方面的功能，待研究
 exports.getTimeOffset = function (start, end) {
     var y = end.getFullYear() - start.getFullYear(),
@@ -124,7 +135,7 @@ exports.getTimeOffset = function (start, end) {
         d: d > 0 ? (d > 1 ? d + 'day(s) ' : 'day') : '',
         h: h > 0 ? h + 'h ' : '',
         min: min > 0 ? min + 'm ' : '',
-        s: s > 0 ? s + 's' : ''
+        s: s > 0 ? s + 's' : '0s'
     };
     return obj.y + obj.m + obj.d + obj.h + obj.min + obj.s;
 };

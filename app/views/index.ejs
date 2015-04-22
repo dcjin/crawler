@@ -11,7 +11,11 @@
     <h1>hello 这是你想要的</h1>
     <ul>
         <% info.forEach(function (item) { %>
-        <li><a href="#"><%= item.name %></a></li>
+		<% if (item.name) {%>
+		<li><a href="#"><%= item.name %></a></li>
+		<% } else {%>
+		<li><a href="#"><%= item.job %></a></li>
+		<% }%>
         <% }) %>
     </ul>
 </body>
