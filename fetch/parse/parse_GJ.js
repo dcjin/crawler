@@ -18,6 +18,7 @@ exports.getInfo = function (page, callback) {
             aContent.each(function (index, ele) {
                 var supernatant = $(ele).find('.s-box'),
                     obj = {
+                        jobLink: common.getValue($(ele), 'dt', 'a', 'href', 0),
                         job: common.getInfoRow($(ele), 'dt', 'a', 0),
                         id: 'GJ_' + common.getValue($(ele), 'dt', 'a', 'puid', 0),
                         company: common.getValue($(ele), '.company', 'a', 'title', 0),

@@ -19,6 +19,14 @@ app.get('/', function (rep, res) {
         }
     });
 });
+app.get('/detail/:id', function (req, res) {
+    read.getDetail(req.params.id, function (results) {
+        if (results) {
+            res.locals.info = results;
+            res.render('detail');
+        }
+    });
+});
 
 //for home
 //app.get('/', function (rep, res) {

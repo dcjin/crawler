@@ -26,3 +26,20 @@ exports.getJob = function (callback) {
         callback(results);
     });
 };
+
+exports.getDetail = function (id, callback) {
+    db1.getConnection(function (err, conn) {
+        if (err) {
+            console.log(err);
+        }
+
+        conn.query("SELECT * FROM jobinfo WHERE id = ?", id, function (err, results) {
+            if (err) {
+                console.log('11' + err);
+            }
+            if (results.length > 0) {
+                callback(results[0]);
+            }
+        });
+    });
+};

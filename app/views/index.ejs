@@ -12,9 +12,9 @@
     <ul>
         <% info.forEach(function (item) { %>
 		<% if (item.name) {%>
-		<li><a href="#"><%= item.name %></a></li>
+		<li><a href="detail/<%=item.id%>"><%= item.name %></a></li>
 		<% } else {%>
-		<li><a href="#"><%= item.job %></a></li>
+		<li><a href="detail/<%=item.id%>"><%= item.job %></a></li>
 		<% }%>
         <% }) %>
     </ul>
