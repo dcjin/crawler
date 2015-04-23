@@ -19,7 +19,7 @@ exports.getInfo = function (page, callback) {
             aContent.each(function (index, ele) {
                 ele = $(ele);
                 var supernatant = ele.find('.s-box'),
-                    obj = {
+                    baseInfo = {
                         jobLink: common.getValue(ele, 'dt', 'a', 'href', 0),
                         job: common.getInfoRow(ele, 'dt', 'a', 0),
                         id: 'GJ_' + common.getValue(ele, 'dt', 'a', 'puid', 0),
@@ -34,16 +34,16 @@ exports.getInfo = function (page, callback) {
                     };
 
                 if (index === 0) {
-                    obj.jobLink = config.url_GJ + obj.id + 'x.htm';
+                    baseInfo.jobLink = config.url_GJ + baseInfo.id + 'x.htm';
                 }
-                if (obj.time === '今天') {
+                if (baseInfo.time === '今天') {
                     var day = new Date(),
                         m = day.getMonth() + 1,
                         d = day.getDate();
-                    obj.time = ((m < 10) ? ('0' + m) : m) + '-' + d;
+                    baseInfo.time = ((m < 10) ? ('0' + m) : m) + '-' + d;
                 }
                 //坑爹，同样的信息特么会发两遍，特么还是在同一页里面，特么还有一个是置顶的，尼玛有钱啊
-                all.indexOf(obj.id) === -1 && all.push(obj.id) && callback(obj);
+                all.indexOf(baseInfo.id) === -1 && all.push(baseInfo.id) && callback(baseInfo);
             });
         }
     });

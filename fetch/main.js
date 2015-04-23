@@ -26,6 +26,7 @@ job.start();
 //use async series & eachSeries to control flow
 //async模块流程控制
 function fetch() {
+    storage.clearCount();
     debug('\n\n------------------(╯‵□′)╯︵┻━┻------------------\n\n');
     async.parallel([
         //智联招聘  爬取n-m页的列表数据
