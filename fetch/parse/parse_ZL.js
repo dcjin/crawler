@@ -2,16 +2,17 @@
 var request = require('request'),
     cheerio = require('cheerio'),
     common = require('../../common/common'),
-    config = require('../../common/config');
+    config = require('../../common/config'),
+    debug = require('debug')('fetch:parse:zl');
 
 exports.getInfo = function (page, callback) {
     'use strict';
     var all = [];
-    console.log('Page ' + page + '...');
+    debug('智联招聘 Page %s...\n', page);
     request(config.url_ZL + page, function (err, res, body) {
         if (!err && res.statusCode === 200) {
             var $ = cheerio.load(body, {decodeEntities: false}),
-                aContent = $('table.newlist');
+                aContent = $('table[class=newlist]');
 
             aContent.each(function (index, ele) {
                 ele = $(ele);// wrap to a jQuery object
@@ -44,6 +45,7 @@ exports.getInfo = function (page, callback) {
                 }
             });
 
+            debug('智联招聘 Page %s is done. Total %s\n', page, all.length);
             callback(all);
         }
     });

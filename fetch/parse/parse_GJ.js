@@ -2,13 +2,14 @@
 var request = require('request'),
     cheerio = require('cheerio'),
     common = require('../../common/common'),
-    config = require('../../common/config');
+    config = require('../../common/config'),
+    debug = require('debug')('fetch:parse:gj');
 
 exports.getInfo = function (page, callback) {
     'use strict';
     var all = [],
         url = config.url_GJ + 'o' + page + '/';
-    console.log('Page ' + page + '...');
+    debug('赶集招聘 Page %s...\n', page);
     request(url, function (err, res, body) {
         if (!err && res.statusCode === 200) {
             //one dl tag contains whole information
@@ -42,6 +43,8 @@ exports.getInfo = function (page, callback) {
                 }
                 all.push(obj);
             });
+
+            debug('赶集招聘 Page %s is done. Total %s\n', page, all.length);
             callback(all);
         }
     });

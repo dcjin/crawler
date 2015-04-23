@@ -11,11 +11,7 @@
     <h1>hello 这是你想要的</h1>
     <ul>
         <% info.forEach(function (item) { %>
-		<% if (item.name) {%>
-		<li><a href="detail/<%=item.id%>"><%= item.name %></a></li>
-		<% } else {%>
 		<li><a href="detail/<%=item.id%>"><%= item.job %></a></li>
-		<% }%>
         <% }) %>
     </ul>
 </body>

@@ -4,7 +4,7 @@ var db = require('../../common/config').db_crawler;
 exports.getJob = function (callback) {
     db.getConnection(function(err, conn) {
         if (err) {
-            console.log('11' + err);
+            console.log(err);
         }
         conn.query('SELECT * FROM jobinfo', function(err, results) {
             if (err) {

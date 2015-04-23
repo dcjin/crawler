@@ -3,7 +3,8 @@ var request = require('request'),
     cheerio = require('cheerio'),
     iconv = require('iconv-lite'),
     common = require('../../common/common'),
-    config = require('../../common/config');
+    config = require('../../common/config'),
+    debug = require('debug')('fetch:parse:qc');
 
 exports.getInfo = function (page, callback) {
     'use strict';
@@ -11,7 +12,7 @@ exports.getInfo = function (page, callback) {
         part1 = [],
         part2 = [],
         url = config.url_QC_partOne + page + config.url_QC_partTwo;
-    console.log('Page ' + page + '...');
+    debug('前程无忧 Page %s...\n', page);
 
     //After this call all Node basic primitives will understand iconv-lite encodings.
     iconv.extendNodeEncodings();
@@ -68,6 +69,7 @@ exports.getInfo = function (page, callback) {
                 }
             })();
 
+            debug('前程无忧 Page %s is done. Total %s\n', page, all.length);
             callback(all);
         }
     });
