@@ -7,8 +7,8 @@ var request = require('request'),
 
 exports.getInfo = function (page, callback) {
     'use strict';
-    var all = [];
     debug('智联招聘 Page %s...\n', page);
+    var all = [];
     request(config.url_ZL + page, function (err, res, body) {
         if (!err && res.statusCode === 200) {
             var $ = cheerio.load(body, {decodeEntities: false}),
@@ -41,12 +41,9 @@ exports.getInfo = function (page, callback) {
                             baseInfo[item] = detailInfo[item];
                         }
                     }
-                    all.push(baseInfo);
+                    all.indexOf(baseInfo.id) === -1 && all.push(baseInfo.id) && callback(baseInfo);
                 }
             });
-
-            debug('智联招聘 Page %s is done. Total %s\n', page, all.length);
-            callback(all);
         }
     });
 };

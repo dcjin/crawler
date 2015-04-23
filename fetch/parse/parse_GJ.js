@@ -17,15 +17,16 @@ exports.getInfo = function (page, callback) {
                 aContent = $('dl.job-list.list-noimg');
 
             aContent.each(function (index, ele) {
-                var supernatant = $(ele).find('.s-box'),
+                ele = $(ele);
+                var supernatant = ele.find('.s-box'),
                     obj = {
-                        jobLink: common.getValue($(ele), 'dt', 'a', 'href', 0),
-                        job: common.getInfoRow($(ele), 'dt', 'a', 0),
-                        id: 'GJ_' + common.getValue($(ele), 'dt', 'a', 'puid', 0),
-                        company: common.getValue($(ele), '.company', 'a', 'title', 0),
-                        companyLink: common.getValue($(ele), '.company', 'a', 'href', 0),
-                        address: common.getInfoRow($(ele), '.pay', null, -1),
-                        time: common.getInfoRow($(ele), '.pub-time', null, -1),
+                        jobLink: common.getValue(ele, 'dt', 'a', 'href', 0),
+                        job: common.getInfoRow(ele, 'dt', 'a', 0),
+                        id: 'GJ_' + common.getValue(ele, 'dt', 'a', 'puid', 0),
+                        company: common.getValue(ele, '.company', 'a', 'title', 0),
+                        companyLink: common.getValue(ele, '.company', 'a', 'href', 0),
+                        address: common.getInfoRow(ele, '.pay', null, -1),
+                        time: common.getInfoRow(ele, '.pub-time', null, -1),
                         experience: common.getDetail_GJ(common.getInfoRow($(supernatant), '.s-butt', 'li', 2)),
                         degree: common.getDetail_GJ(common.getInfoRow($(supernatant), '.s-butt', 'li', 3)),
                         companySize: common.getDetail_GJ(common.getInfoRow($(supernatant), '.s-butt', 'li', 5)),
@@ -41,11 +42,9 @@ exports.getInfo = function (page, callback) {
                         d = day.getDate();
                     obj.time = ((m < 10) ? ('0' + m) : m) + '-' + d;
                 }
-                all.push(obj);
+                //坑爹，同样的信息特么会发两遍，特么还是在同一页里面，特么还有一个是置顶的，尼玛有钱啊
+                all.indexOf(obj.id) === -1 && all.push(obj.id) && callback(obj);
             });
-
-            debug('赶集招聘 Page %s is done. Total %s\n', page, all.length);
-            callback(all);
         }
     });
 };

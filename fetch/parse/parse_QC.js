@@ -23,29 +23,30 @@ exports.getInfo = function (page, callback) {
                 aContent = $('#resultList').find('tr');
 
             aContent.each(function (index, ele) {
+                ele = $(ele);
                 //a full information contains three parts, each has a class named 'tr' + n (n=0,1,2)
                 var className = $(ele).attr('class'),
                     obj = {};
 
                 if (className === 'tr0') {
                     obj = {
-                        job: common.getInfoRow($(ele), '.td1', 'a', 0),
-                        jobLink: common.getValue($(ele), '.td1', 'a', 'href', 0),
-                        company: common.getInfoRow($(ele), '.td2', 'a', 0),
-                        companyLink: common.getValue($(ele), '.td2', 'a', 'href', 0),
-                        address: common.getInfoRow($(ele), '.td3', 'span', 0),
-                        time: common.getInfoRow($(ele), '.td4', 'span', 0)
+                        job: common.getInfoRow(ele, '.td1', 'a', 0),
+                        jobLink: common.getValue(ele, '.td1', 'a', 'href', 0),
+                        company: common.getInfoRow(ele, '.td2', 'a', 0),
+                        companyLink: common.getValue(ele, '.td2', 'a', 'href', 0),
+                        address: common.getInfoRow(ele, '.td3', 'span', 0),
+                        time: common.getInfoRow(ele, '.td4', 'span', 0)
                     };
 
                     all.push(obj);
                 } else if (className === 'tr1') {
-                    obj = common.getDetail_QC($(ele), '.td1234');
+                    obj = common.getDetail_QC(ele, '.td1234');
 
                     part1.push(obj);
                 } else if (className === 'tr2') {
                     obj = {
-                        id: common.getValue($(ele), '.wordBreakNormal', 'span', 'id', 0),
-                        introduce: common.getInfoRow($(ele), '.wordBreakNormal', 'span', 0)
+                        id: common.getValue(ele, '.wordBreakNormal', 'span', 'id', 0),
+                        introduce: common.getInfoRow(ele, '.wordBreakNormal', 'span', 0)
                     };
                     obj.id = 'QC_' + (obj.id).replace('jobinfo', '');
 
@@ -66,11 +67,10 @@ exports.getInfo = function (page, callback) {
                             all[i][detailInfo] = part2[i][detailInfo];
                         }
                     }
+
+                    callback(all[i]);
                 }
             })();
-
-            debug('前程无忧 Page %s is done. Total %s\n', page, all.length);
-            callback(all);
         }
     });
 };

@@ -4,7 +4,8 @@
 var config = require('../common/config'),
     insert = require('../model/insert'),
     update = require('../model/update'),
-    check = require('../model/check');
+    check = require('../model/check'),
+    debug = require('debug')('storage');
 
 var count = 1,
     REQUIRED_PARAMETER = config.REQUIRED_PARAMETER;
@@ -26,22 +27,22 @@ exports.saveInfo = function (item, callback) {
             //WTF SO MANY CALLBACKS!!!
             update.update(params, '', function (isUpdated) {
                 if (isUpdated) {
-                    console.log("NO." + setCounter(count) + " Info " + item.id + " is updated");
+                    debug("NO.%s Info %s is updated", setCounter(count), item.id);
                     count++;
                     callback(false);
                 } else {
-                    console.log('update is wrong');
+                    debug('update is wrong');
                     callback(true);
                 }
             });
         } else {
             insert.insert(params, '', function (isStored) {
                 if (isStored) {
-                    console.log("NO." + setCounter(count) + " Info " + item.id + " is stored");
+                    debug("NO.%s Info %s is stored", setCounter(count), item.id);
                     count++;
                     callback(false);
                 } else {
-                    console.log('store is wrong');
+                    debug('store is wrong');
                     callback(true);
                 }
             });
