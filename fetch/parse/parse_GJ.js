@@ -5,10 +5,15 @@ var request = require('request'),
     config = require('../../common/config'),
     debug = require('debug')('fetch:parse:gj');
 
+//查重使用
+var all = [];
+exports.clearArr = function () {
+    all = [];
+};
+
 exports.getInfo = function (page, callback) {
     'use strict';
-    var all = [],
-        url = config.url_GJ + 'o' + page + '/';
+    var url = config.url_GJ + 'o' + page + '/';
     debug('赶集招聘 Page %s...\n', page);
     request(url, function (err, res, body) {
         if (!err && res.statusCode === 200) {
@@ -44,7 +49,10 @@ exports.getInfo = function (page, callback) {
                     baseInfo.time = ((m < 10) ? ('0' + m) : m) + '-' + d;
                 }
                 //坑爹，同样的信息特么会发两遍，特么还是在同一页里面，特么还有一个是置顶的，尼玛有钱啊
-                all.indexOf(baseInfo.id) === -1 && all.push(baseInfo.id) && callback(baseInfo);
+                if (all.indexOf(baseInfo.id) === -1) {
+                    all.push(baseInfo.id);
+                    callback(baseInfo);
+                }
             });
         }
     });

@@ -21,6 +21,11 @@ exports.db_torrent = mysql.createPool({
     connectionLimit: 15
 });
 
+exports.port = '3000';
+
+//单页显示数量
+exports.maxLen = 10;
+
 exports.REQUIRED_PARAMETER = ['id', 'job', 'company', 'address', 'time', 'degree', 'experience', 'companyNature', 'companySize', 'introduce', 'jobLink', 'companyLink'];
 
 //智联招聘  实习  杭州

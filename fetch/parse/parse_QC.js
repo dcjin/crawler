@@ -28,7 +28,6 @@ exports.getInfo = function (page, callback) {
                 if (className === 'tr0') {
                     var tr1 = aContent.eq(index + 1),
                         tr2 = aContent.eq(index + 2),
-                        detailInfo = {},
                         baseInfo = {
                             job: common.getInfoRow(ele, '.td1', 'a', 0),
                             jobLink: common.getValue(ele, '.td1', 'a', 'href', 0),
@@ -38,10 +37,11 @@ exports.getInfo = function (page, callback) {
                             time: common.getInfoRow(ele, '.td4', 'span', 0)
                         };
 
+                    baseInfo.time = (/(\d+)-(\d+-\d+)/.exec(baseInfo.time))[2];
                     baseInfo.id = 'QC_' + common.getValue(tr2, '.wordBreakNormal', 'span', 'id', 0).replace('jobinfo', '');
                     baseInfo.introduce = common.getInfoRow(tr2, '.wordBreakNormal', 'span', 0);
 
-                    detailInfo = common.getDetail_QC(tr1, '.td1234');
+                    var detailInfo = common.getDetail_QC(tr1, '.td1234');
 
                     for (var i in detailInfo) {
                         if (detailInfo.hasOwnProperty(i)) {
