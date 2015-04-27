@@ -48,7 +48,11 @@ exports.getInfo = function (page, callback) {
                             baseInfo[i] = detailInfo[i];
                         }
                     }
-                    all.indexOf(baseInfo.id) === -1 && all.push(baseInfo) && callback(baseInfo);
+
+                    if (all.indexOf(baseInfo.id) === -1) {
+                        all.push(baseInfo);
+                        callback(baseInfo);
+                    }
                 }
             });
         }

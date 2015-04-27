@@ -2,6 +2,7 @@
 var db = require('../../common/config').db_crawler;
 
 exports.getJob = function (callback) {
+    'use strict';
     db.getConnection(function(err, conn) {
         if (err) {
             console.log(err);
@@ -17,6 +18,7 @@ exports.getJob = function (callback) {
 };
 
 exports.getDetail = function (id, callback) {
+    'use strict';
     db.getConnection(function (err, conn) {
         if (err) {
             console.log(err);

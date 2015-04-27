@@ -8,6 +8,7 @@ var request = require('request'),
 //查重使用
 var all = [];
 exports.clearArr = function () {
+    'use strict';
     all = [];
 };
 

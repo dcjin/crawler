@@ -118,11 +118,13 @@ exports.getDetail_QC = function (ele, key) {
  *   @{string}   str       字符串
  */
 exports.getDetail_GJ = function (str) {
+    'use strict';
     return str.substr(str.indexOf('：') + 1);
 };
 
 //返回一个表范围的数组，如getArr(1,100)--->return [1,2,3....,100]
 exports.getArr = function (startNo, endNo) {
+    'use strict';
     var arr = [];
     for (var i = startNo; i <= endNo; i++) {
         arr.push(i);

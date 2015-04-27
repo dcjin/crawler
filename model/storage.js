@@ -50,8 +50,6 @@ exports.saveInfo = function (item, callback) {
     });
 };
 
-
-//TODO 想不到好的方法，凑合用
 exports.clearCount = function () {
     'use strict';
     count = 1;
@@ -59,6 +57,7 @@ exports.clearCount = function () {
 
 //数据预处理
 function process(item) {
+    'use strict';
     var arr = [];
 
     //no "id" or dirty data

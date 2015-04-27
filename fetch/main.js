@@ -26,6 +26,7 @@ job.start();
 //use async series & eachSeries to control flow
 //async模块流程控制
 function fetch() {
+    'use strict';
     storage.clearCount();
     debug('\n\n------------------(╯‵□′)╯︵┻━┻------------------\n\n');
     async.parallel([
@@ -88,7 +89,7 @@ function fetch() {
         }
     ], function(err) {
         if (err) {
-            console.log(err)
+            console.log(err);
         } else {
             debug('\n\n------------------(╯‵□′)╯︵┻━┻------------------\n\n');
         }
