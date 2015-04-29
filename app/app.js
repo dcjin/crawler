@@ -6,6 +6,8 @@ var express = require('express'),
     config= require('../common/config'),
     route = require('./route');
 
+var main = require('../fetch/main');
+
 var app = express();
 
 //app.set('/public', express.static('public'));
@@ -18,4 +20,10 @@ app.listen(config.port);
 console.log('server start');
 
 app.get('/', route.getIndex)
-    .get('/page/:id', route.getPage);
+    .get('/page/:id', route.getPage)
+    .get('/about', function (req, res) {
+        'use strict';
+        main.hello(function (a) {
+            if (a) { return a; }
+        });
+    });

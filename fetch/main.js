@@ -12,14 +12,25 @@ var async = require('async'),
     common = require('./../common/common'),
     debug = require('debug')('fetch:main');
 
-//设置定时任务
-var job = new CronJob({
-    cronTime: '*/30 * * * * *', // run at AM 9:00:00 everyday
-    onTick: fetch,
-    start: true
-});
 
-job.start();
+exports.hello = function (callback) {
+    'use strict';
+    var str = 'Fuck hello';
+    callback(str);
+};
+
+exports.start = function () {
+    'use strict';
+    //设置定时任务
+    var job = new CronJob({
+        cronTime: '*/30 * * * * *', // run at AM 9:00:00 everyday
+        onTick: fetch,
+        start: true
+    });
+
+    job.start();
+};
+
 
 //fetch();
 
