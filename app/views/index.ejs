@@ -96,7 +96,7 @@
 				</li>
 				<li>
 					<a<%=info.now == 1 ? '' : ' href=/page/' + (+info.now - 1)%> aria-label="Previous">
-						<span aria-hidden="true">&lt;</span>
+						<span aria-hidden="true">pre</span><!--&lt;-->
 					</a>
 				</li>
 				<%for (var i = info.startNo; i <= info.endNo; i++) {%>
@@ -104,7 +104,7 @@
 				<%}%>
 				<li>
 					<a<%=info.now == info.totalPage ? '' : ' href=/page/' + (+info.now + 1)%> aria-label="Next">
-						<span aria-hidden="true">&gt;</span>
+						<span aria-hidden="true">next</span><!--&gt;-->
 					</a>
 				</li>
 				<li>

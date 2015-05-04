@@ -13,11 +13,12 @@ exports.getNewInfo = function (req, res) {
     fetch.fetch();
 };
 
+//do Ajax
 exports.updateInfo = function (req, res) {
     'use strict';
     read.getJob(function (results) {
         if (results) {
-            res.json({ msg: results });
+            res.json({ msg: true });
         }
     });
     //res.json({ msg: 'fuck hello' });
@@ -26,19 +27,18 @@ exports.updateInfo = function (req, res) {
 //首页及分页渲染方法
 exports.renderView = function (req, res) {
     'use strict';
-    var id = req.params.id,
-        isIndex = id ? false : true;
     read.getJob(function (results) {
         if (results) {
-            renderView(req, res, results, isIndex);
+            renderView(req, res, results);
         }
     });
 };
 
-function renderView (req, res, results, isIndex) {
+function renderView (req, res, results) {
     'use strict';
-    var id = req.params.id;
-    var len = Math.ceil(results.length / config.maxLen);
+    var id = req.params.id,
+        len = Math.ceil(results.length / config.maxLen),
+        isIndex = id ? false : true;
     totalPage = len;
     res.locals.info = {
         result: results.slice(isIndex ? 0 : config.maxLen * (id - 1), isIndex ? config.maxLen : config.maxLen * id),
