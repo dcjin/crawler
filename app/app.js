@@ -6,10 +6,9 @@ var express = require('express'),
     config= require('../common/config'),
     route = require('./route');
 
-var main = require('../fetch/main');
-
 var app = express();
 
+var read = require('./storage/read');
 //app.set('/public', express.static('public'));
 
 app.set('views', __dirname + '/views')
@@ -20,10 +19,14 @@ app.listen(config.port);
 console.log('server start');
 
 app.get('/', route.getIndex)
-    .get('/page/:id', route.getPage)
-    .get('/about', function (req, res) {
-        'use strict';
-        main.hello(function (a) {
-            if (a) { return a; }
-        });
+    .get('/page/:id', route.getPage);
+
+app.post('/about', function (req, res) {
+    'use strict';
+    read.getJob(function (results) {
+        if (results) {
+            res.json({ msg: results });
+        }
     });
+    //res.json({ msg: 'fuck hello' });
+});
