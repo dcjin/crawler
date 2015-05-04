@@ -12,13 +12,7 @@ var async = require('async'),
     common = require('./../common/common'),
     debug = require('debug')('fetch:main');
 
-
-exports.hello = function (callback) {
-    'use strict';
-    var str = 'Fuck hello';
-    callback(str);
-};
-
+//开始定时爬虫任务
 exports.start = function () {
     'use strict';
     //设置定时任务
@@ -31,8 +25,11 @@ exports.start = function () {
     job.start();
 };
 
-
-//fetch();
+//立即执行爬虫
+exports.fetch = function () {
+    'use strict';
+    fetch();
+};
 
 //use async series & eachSeries to control flow
 //async模块流程控制

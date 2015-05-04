@@ -8,7 +8,6 @@ var express = require('express'),
 
 var app = express();
 
-var read = require('./storage/read');
 //app.set('/public', express.static('public'));
 
 app.set('views', __dirname + '/views')
@@ -18,15 +17,6 @@ app.set('views', __dirname + '/views')
 app.listen(config.port);
 console.log('server start');
 
-app.get('/', route.getIndex)
-    .get('/page/:id', route.getPage);
-
-app.post('/about', function (req, res) {
-    'use strict';
-    read.getJob(function (results) {
-        if (results) {
-            res.json({ msg: results });
-        }
-    });
-    //res.json({ msg: 'fuck hello' });
-});
+app.get('/', route.renderView)
+    .get('/page/:id', route.renderView)
+    .post('/about', route.updateInfo);
