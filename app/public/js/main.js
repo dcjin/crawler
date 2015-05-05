@@ -14,7 +14,7 @@ $('#update').on('click', function () {
             //        alert(JSON.stringify(data.msg[i].job));
             //    }
             //}
-            alert('Just testing Ajax');
+            window.alert('Just testing Ajax');
         }
     });
 });
