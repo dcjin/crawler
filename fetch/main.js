@@ -12,8 +12,18 @@ var async = require('async'),
     common = require('./../common/common'),
     debug = require('debug')('fetch:main');
 
+
+fetch();
+
+
 //开始定时爬虫任务
 exports.start = function () {
+    'use strict';
+    start();
+};
+
+//cron设置定时任务，此处为每30s执行一次
+function start() {
     'use strict';
     //设置定时任务
     var job = new CronJob({
@@ -23,9 +33,10 @@ exports.start = function () {
     });
 
     job.start();
-};
+}
 
-//立即执行爬虫
+
+//立即执行爬虫,单词执行
 exports.fetch = function () {
     'use strict';
     fetch();
