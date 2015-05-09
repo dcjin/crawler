@@ -47,7 +47,7 @@ exports.getInfo = function (page, callback) {
                     var day = new Date(),
                         m = day.getMonth() + 1,
                         d = day.getDate();
-                    baseInfo.time = ((m < 10) ? ('0' + m) : m) + '-' + d;
+                    baseInfo.time = ((m < 10) ? ('0' + m) : m) + '-' + ((d < 10) ? ('0' + d) : d);
                 }
                 //坑爹，同样的信息特么会发两遍，特么还是在同一页里面，特么还有一个是置顶的，尼玛有钱啊
                 if (all.indexOf(baseInfo.id) === -1) {
