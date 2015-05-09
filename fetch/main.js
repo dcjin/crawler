@@ -51,7 +51,7 @@ function fetch() {
     async.parallel([
         //智联招聘  爬取n-m页的列表数据
         function (finish) {
-            console.log('fetching 智联招聘 .......\n');
+            debug('fetching 智联招聘 .......\n');
             async.eachSeries(common.getArr(1, 2), function (page, done) {
                 parse_ZL.getInfo(page, function (all) {
                     storage.saveInfo(all, function(err) {
@@ -69,7 +69,7 @@ function fetch() {
         },
         //前程无忧  爬取n-m页的列表数据
         function (finish) {
-            console.log('fetching 前程无忧 .......\n');
+            debug('fetching 前程无忧 .......\n');
             async.eachSeries(common.getArr(1, 2), function (page, done) {
                 parse_QC.getInfo(page, function (all) {
                     storage.saveInfo(all, function(err) {
@@ -88,7 +88,7 @@ function fetch() {
         },
         //赶集招聘  爬取n-m页的列表数据
         function (finish) {
-            console.log('fetching 赶集招聘 .......\n');
+            debug('fetching 赶集招聘 .......\n');
             async.eachSeries(common.getArr(1, 2), function (page, done) {
                 parse_GJ.getInfo(page, function (all) {
                     storage.saveInfo(all, function(err) {

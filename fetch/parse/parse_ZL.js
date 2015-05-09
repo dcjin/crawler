@@ -32,6 +32,7 @@ exports.getInfo = function (page, callback) {
                     baseInfo.id = 'ZL_' + id.replace('000_653_1_03_401__1_', '')
                         .replace('000_653_0', '')
                         .replace('000_653_1_03_201__1_', '')
+                        .replace('000_653_1_03_409__1_', '')
                         .replace('CC', '')
                         .replace('J90', '');
 
