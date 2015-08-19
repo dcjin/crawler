@@ -1,6 +1,6 @@
 /*
-*   Storage Module which contains three method for insert, update and check
-*/
+ *   Storage Module which contains three method for insert, update and check
+ */
 var config = require('../common/config'),
     insert = require('../model/insert'),
     update = require('../model/update'),
@@ -11,11 +11,11 @@ var count = 1,
     REQUIRED_PARAMETER = config.REQUIRED_PARAMETER;
 
 /*
-*   storage module
-*
-*   @param  {object}    item        whole information
-*   @param  {function}  callback    callback method
-*/
+ *   storage module
+ *
+ *   @param  {object}    item        whole information
+ *   @param  {function}  callback    callback method
+ */
 exports.saveInfo = function (item, callback) {
     'use strict';
     //对象数组化

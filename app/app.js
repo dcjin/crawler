@@ -3,7 +3,7 @@
  */
 var express = require('express'),
     path = require('path'),
-    config= require('../common/config'),
+    config = require('../common/config'),
     route = require('./route');
 
 var app = express();

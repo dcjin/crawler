@@ -15,7 +15,7 @@ exports.getInfo = function (page, callback) {
     //After this call all Node basic primitives will understand iconv-lite encodings.
     iconv.extendNodeEncodings();
 
-    request({ url: url, encoding: 'gb2312' }, function (err, res, body) {
+    request({url: url, encoding: 'gb2312'}, function (err, res, body) {
         if (!err && res.statusCode === 200) {
             var $ = cheerio.load(body),
                 aContent = $('#resultList').find('tr');

@@ -18,7 +18,7 @@ exports.updateInfo = function (req, res) {
     'use strict';
     read.getJob(function (results) {
         if (results) {
-            res.json({ msg: true });
+            res.json({msg: true});
         }
     });
     //res.json({ msg: 'fuck hello' });
@@ -34,7 +34,7 @@ exports.renderView = function (req, res) {
     });
 };
 
-function renderView (req, res, results) {
+function renderView(req, res, results) {
     'use strict';
     var id = req.params.id,
         len = Math.ceil(results.length / config.maxLen),

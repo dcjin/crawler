@@ -3,11 +3,11 @@ var db = require('../../common/config').db_crawler;
 
 exports.getJob = function (callback) {
     'use strict';
-    db.getConnection(function(err, conn) {
+    db.getConnection(function (err, conn) {
         if (err) {
             console.log(err);
         }
-        conn.query('SELECT * FROM jobinfo ORDER BY time DESC;', function(err, results) {
+        conn.query('SELECT * FROM jobinfo ORDER BY time DESC;', function (err, results) {
             if (err) {
                 console.log(err);
             }

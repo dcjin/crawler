@@ -18,103 +18,106 @@
 	<![endif]-->
 </head>
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container"><!-- 容器开始 -->
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="/">Information Extraction</a>
-			</div>
-
-			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="/">Home</a></li>
-					<li id='update'><a>Update Now</a></li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Origin Sites<span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="http://www.51job.com/">前程无忧</a></li>
-							<li><a href="http://www.zhaopin.com/">智联招聘</a></li>
-							<li><a href="http://sh.ganji.com/zhaopin/">赶集招聘</a></li>
-						</ul>
-					</li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="https://github.com/dcjin/crawler" target="_blank">View Source Code</a></li>
-				</ul>
-			</div>
-		</div><!-- 容器结束 -->
-	</nav>
-	<div class="jumbotron">
-		<div class="container">
-			<h2>Hello, 这是个查询招聘信息的小站</h2><br>
-			<p>这里收录了前程无忧、智联、赶集三家网站近期的招聘信息。主要收集的是杭州地区实习方向的招聘信息。</p>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container"><!-- 容器开始 -->
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="/">Information Extraction</a>
 		</div>
-	</div>
-	<div class="container">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Job</th>
-					<th>Company</th>
-					<th>Nature</th>
-					<th>Size</th>
-					<th>Experience</th>
-					<th>Degree</th>
-					<th>Address</th>
-					<th>Date</th>
-				</tr>
-			</thead>
-			<tbody>
-				<% info.result.forEach(function (item) { %>
-				<tr>
-					<td><a href="<%=item.jobLink%>"><%= item.job%></a></td>
-					<td><a href="<%=item.companyLink%>"><%= item.company%></a></td>
-					<td><%=item.companyNature%></td>
-					<td><%=item.companySize%></td>
-					<td><%=item.experience%></td>
-					<td><%=item.degree%></td>
-					<td><%=item.address%></td>
-					<td><%=item.time%></td>
-				</tr>
-				<% }) %>
-			</tbody>
-		</table>
-	</div>
-	<div class="container">
-		<nav>
-			<ul class="pagination">
-				<li>
-					<a href='/page/1' aria-label="Previous">
-						<span aria-hidden="true">&laquo;</span>
-					</a>
-				</li>
-				<li>
-					<a<%=info.now == 1 ? '' : ' href=/page/' + (+info.now - 1)%> aria-label="Previous">
-						<span aria-hidden="true">prev</span><!--&lt;-->
-					</a>
-				</li>
-				<%for (var i = info.startNo; i <= info.endNo; i++) {%>
-				<li class="<%=info.now == i ? 'active' : ''%>"><a href="/page/<%=i%>"><%=i%></a></li>
-				<%}%>
-				<li>
-					<a<%=info.now == info.totalPage ? '' : ' href=/page/' + (+info.now + 1)%> aria-label="Next">
-						<span aria-hidden="true">next</span><!--&gt;-->
-					</a>
-				</li>
-				<li>
-					<a href='/page/<%=info.totalPage%>' aria-label="Next">
-						<span aria-hidden="true">&raquo;</span>
-					</a>
+
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/">Home</a></li>
+				<li id='update'><a>Update Now</a></li>
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Origin
+						Sites<span class="caret"></span></a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="http://www.51job.com/">前程无忧</a></li>
+						<li><a href="http://www.zhaopin.com/">智联招聘</a></li>
+						<li><a href="http://sh.ganji.com/zhaopin/">赶集招聘</a></li>
+					</ul>
 				</li>
 			</ul>
-		</nav>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="https://github.com/dcjin/crawler" target="_blank">View Source Code</a></li>
+			</ul>
+		</div>
 	</div>
+	<!-- 容器结束 -->
+</nav>
+<div class="jumbotron">
+	<div class="container">
+		<h2>Hello, 这是个查询招聘信息的小站</h2><br>
+
+		<p>这里收录了前程无忧、智联、赶集三家网站近期的招聘信息。主要收集的是杭州地区实习方向的招聘信息。</p>
+	</div>
+</div>
+<div class="container">
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th>Job</th>
+			<th>Company</th>
+			<th>Nature</th>
+			<th>Size</th>
+			<th>Experience</th>
+			<th>Degree</th>
+			<th>Address</th>
+			<th>Date</th>
+		</tr>
+		</thead>
+		<tbody>
+		<% info.result.forEach(function (item) { %>
+		<tr>
+			<td><a href="<%= item.jobLink %>"><%= item.job %></a></td>
+			<td><a href="<%= item.companyLink %>"><%= item.company %></a></td>
+			<td><%= item.companyNature %></td>
+			<td><%= item.companySize %></td>
+			<td><%= item.experience %></td>
+			<td><%= item.degree %></td>
+			<td><%= item.address %></td>
+			<td><%= item.time %></td>
+		</tr>
+		<% }) %>
+		</tbody>
+	</table>
+</div>
+<div class="container">
+	<nav>
+		<ul class="pagination">
+			<li>
+				<a href='/page/1' aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+			<li>
+				<a<%= info.now == 1 ? '' : ' href=/page/' + (+info.now - 1) %> aria-label="Previous">
+					<span aria-hidden="true">prev</span><!--&lt;-->
+				</a>
+			</li>
+			<% for (var i = info.startNo; i <= info.endNo; i++) { %>
+			<li class="<%= info.now == i ? 'active' : '' %>"><a href="/page/<%= i %>"><%= i %></a></li>
+			<% } %>
+			<li>
+				<a<%= info.now == info.totalPage ? '' : ' href=/page/' + (+info.now + 1) %> aria-label="Next">
+					<span aria-hidden="true">next</span><!--&gt;-->
+				</a>
+			</li>
+			<li>
+				<a href='/page/<%= info.totalPage %>' aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+</div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>

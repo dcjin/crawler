@@ -14,7 +14,9 @@ var config = require('../common/config'),
 exports.update = function (params, str, callback) {
     'use strict';
     db.getConnection(function (err, conn) {
-        if (err) { console.log(err); }
+        if (err) {
+            console.log(err);
+        }
 
         if (params instanceof Array && params.length > 0) {
             //assemble sql statement
@@ -39,7 +41,9 @@ exports.update = function (params, str, callback) {
 
             //using sql escape
             conn.query(sql, params, function (err) {
-                if (err) { console.log(err); }
+                if (err) {
+                    console.log(err);
+                }
 
                 conn.release();
 

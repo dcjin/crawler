@@ -1,46 +1,46 @@
 /*
-*   Get content
-*
-*   @{object}   ele     dom对象
-*   @(string)   key     信息所在的标签 第一层
-*   @{string}   tag     信息所在的标签 第二层
-*   @{number}   offset  第几个
-*/
+ *   Get content
+ *
+ *   @{object}   ele     dom对象
+ *   @(string)   key     信息所在的标签 第一层
+ *   @{string}   tag     信息所在的标签 第二层
+ *   @{number}   offset  第几个
+ */
 exports.getInfoRow = function (ele, key, tag, offset) {
     'use strict';
-    if (!tag && offset ===   -1) {
+    if (!tag && offset === -1) {
         return ele.find(key).text().trim();
     }
     return ele.find(key).find(tag).eq(offset).text().trim();
 };
 
 /*
-*   Get attribute
-*
-*   @{object}   ele     dom对象
-*   @(string)   key     信息所在的标签 第一层
-*   @{string}   tag     信息所在的标签 第二层
-*   @{string}   param   所需要的attribute
-*   @{number}   offset  第几个
-*/
+ *   Get attribute
+ *
+ *   @{object}   ele     dom对象
+ *   @(string)   key     信息所在的标签 第一层
+ *   @{string}   tag     信息所在的标签 第二层
+ *   @{string}   param   所需要的attribute
+ *   @{number}   offset  第几个
+ */
 exports.getValue = function (ele, key, tag, param, offset) {
     'use strict';
     return ele.find(key).find(tag).eq(offset).attr(param);
 };
 
 /*
-*   Get detail
-*
-*   @{object}   $       文档的jQuery对象
-*   @{object}   ele     dom对象
-*   @(string)   key     信息所在的标签 第一层
-*   @{string}   tag     信息所在的标签 第二层
-*/
+ *   Get detail
+ *
+ *   @{object}   $       文档的jQuery对象
+ *   @{object}   ele     dom对象
+ *   @(string)   key     信息所在的标签 第一层
+ *   @{string}   tag     信息所在的标签 第二层
+ */
 exports.getDetail_ZL = function ($, ele, key, tag) {
     'use strict';
 
     var aTags = ele.find(key).find(tag),
-        obj  = {};
+        obj = {};
 
     for (var i = 0, len = aTags.length; i < len; i++) {
         var str = $(aTags[i]).text().trim(),
@@ -71,12 +71,12 @@ exports.getDetail_ZL = function ($, ele, key, tag) {
 };
 
 /*
-*   Get detail
-*
-*   @{object}   $       文档的jQuery对象
-*   @{object}   ele     dom对象
-*   @(string)   key     信息所在的标签
-*/
+ *   Get detail
+ *
+ *   @{object}   $       文档的jQuery对象
+ *   @{object}   ele     dom对象
+ *   @(string)   key     信息所在的标签
+ */
 exports.getDetail_QC = function (ele, key) {
     'use strict';
 
