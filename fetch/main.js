@@ -1,6 +1,6 @@
 /*
- *   使用parallel  分页、抓取、存储全都是异步，不嵌套
- *   每141条数据全程耗时约8s，其中抓取约耗时5s，存储耗时3s
+*   使用parallel  分页、抓取、存储全都是异步，不嵌套
+*   每141条数据全程耗时约8s，其中抓取约耗时5s，存储耗时3s
  */
 
 var async = require('async'),
@@ -43,10 +43,8 @@ function fetch() {
             console.log('fetching 智联招聘 .......\n');
             async.eachSeries(common.getArr(1, 2), function (page, done) {
                 parse_ZL.getInfo(page, function (all) {
-                    storage.saveInfo(all, function (err) {
-                        if (err) {
-                            console.log(err);
-                        }
+                    storage.saveInfo(all, function(err) {
+                        if(err) { console.log(err); }
                     });
                 });
                 done();
@@ -63,10 +61,8 @@ function fetch() {
             console.log('fetching 前程无忧 .......\n');
             async.eachSeries(common.getArr(1, 2), function (page, done) {
                 parse_QC.getInfo(page, function (all) {
-                    storage.saveInfo(all, function (err) {
-                        if (err) {
-                            console.log(err);
-                        }
+                    storage.saveInfo(all, function(err) {
+                        if(err) { console.log(err); }
                     });
 
                 });
@@ -84,10 +80,8 @@ function fetch() {
             console.log('fetching 赶集招聘 .......\n');
             async.eachSeries(common.getArr(1, 2), function (page, done) {
                 parse_GJ.getInfo(page, function (all) {
-                    storage.saveInfo(all, function (err) {
-                        if (err) {
-                            console.log(err);
-                        }
+                    storage.saveInfo(all, function(err) {
+                        if(err) { console.log(err); }
                     });
 
 
@@ -101,7 +95,7 @@ function fetch() {
                 }
             });
         }
-    ], function (err) {
+    ], function(err) {
         if (err) {
             console.log(err);
         } else {
